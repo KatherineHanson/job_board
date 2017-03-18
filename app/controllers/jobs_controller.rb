@@ -9,9 +9,13 @@ class JobsController < ApplicationController
 
 	def create
 	  p "In the create method!!!!"
-	  job = Job.create(job_params)
-	  p job
-	  redirect_to jobs_path
+	  @job = Job.create(job_params)
+	  p @job
+	  if @job.save
+	    redirect_to jobs_path
+	  else
+	  	render 'new'
+	  end
 	end
 
 	def edit
@@ -30,11 +34,10 @@ class JobsController < ApplicationController
       redirect_to jobs_path
 	end
 
-
-
 	private
 
 	def job_params
+
       params.require(:job).permit(:title, :description)
 	end
 end
